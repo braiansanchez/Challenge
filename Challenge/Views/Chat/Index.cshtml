@@ -1,0 +1,11 @@
+﻿
+<div class="text-center">
+    <h1 class="display-4">Rooms</h1>
+    <p>Join to a room</p>
+    <ul class="list-group">
+        @foreach (var item in Challenge.Controllers.ChatController.Rooms)
+        {
+            <li><a class="list-group-item" href="~/Chat/Room?room=@item.Key">@item.Value</a></li>
+        }
+    </ul>
+</div>
