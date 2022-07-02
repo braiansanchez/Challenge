@@ -1,10 +1,12 @@
 using Challenge;
+using Challenge.Bot;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddSignalR();
+builder.Services.AddTransient<IBot, Bot>();
 
 var app = builder.Build();
 

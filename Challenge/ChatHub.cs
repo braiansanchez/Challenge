@@ -5,11 +5,17 @@ namespace Challenge
 {
     public class ChatHub : Hub
     {
+        private readonly IBot _bot;
+
+        public ChatHub(IBot bot)
+        {
+            _bot = bot;
+        }
+
         public async Task SendMessage(string room, string user, string message)
         {
             await Clients.Group(room).SendAsync("ReceiveMessage", user, message);
-            
-            //el bot deberia escuchar aqui
+            _bot.ReadCommand(message);
         }
 
         public async Task AddToGroup(string room)

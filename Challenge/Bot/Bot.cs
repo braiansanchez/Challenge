@@ -2,12 +2,14 @@
 {
     public class Bot : IBot
     {
+        private const string command = "/stock=";
         public void ReadCommand(string message)
         {
-            throw new NotImplementedException();
+            if (message.ToLower().StartsWith(command))
+                CallAPI();
         }
 
-        private void CallAPI()
+        private async void CallAPI()
         {
 
         }
