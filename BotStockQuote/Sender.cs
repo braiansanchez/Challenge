@@ -6,7 +6,7 @@ namespace BotStockQuote
 {
     public static class Sender
     {
-        public static void QueueMessage(StockQuoteResponse? stockQuoteResponse)
+        public static void QueueMessage(StockQuoteResponse? stockQuoteResponse, string room)
         {
             try
             {

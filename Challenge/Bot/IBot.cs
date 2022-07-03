@@ -2,6 +2,6 @@
 {
     public interface IBot
     {
-        void ReadCommand(string message);
+        void ReadCommand(string message, string room);
     }
 }

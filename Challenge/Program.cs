@@ -1,6 +1,6 @@
-using Challenge;
 using Challenge.ApplicationExtensions;
 using Challenge.Bot;
+using Challenge.ChatHub;
 using Challenge.QueueMessage;
 
 var builder = WebApplication.CreateBuilder(args);
