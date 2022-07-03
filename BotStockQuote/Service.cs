@@ -15,8 +15,8 @@ app.MapGet("/stockQuote", async (string code)
     response.EnsureSuccessStatusCode();
     TextReader reader = new StreamReader(await response.Content.ReadAsStreamAsync());
     var csvReader = new CsvReader(reader, CultureInfo.InvariantCulture);
-    var records = csvReader.GetRecords<StockQuoteResponse>();
-    return records;
+    var record = csvReader.GetRecords<StockQuoteResponse>().FirstOrDefault();
+    Sender.QueueMessage(record);
 });
 
 app.Run();
