@@ -2,16 +2,21 @@
 {
     public class Bot : IBot
     {
-        private const string command = "/stock=";
+        private const string Command = "/stock=";
         public void ReadCommand(string message)
         {
-            if (message.ToLower().StartsWith(command))
-                CallAPI();
+            if (IsValidCommand(message))
+                CallAPI(message.Replace(Command, string.Empty));
         }
 
-        private async void CallAPI()
-        {
+        private bool IsValidCommand(string command) 
+            => command.ToLower().StartsWith(Command);
 
+        private async void CallAPI(string code)
+        {
+            var botServiceURL = $"https://localhost:7116/stockQuote?code={code}";
+            var client  = new HttpClient();
+            var response = await client.GetAsync(botServiceURL);
         }
 
         private void QueueMessage(double price)
