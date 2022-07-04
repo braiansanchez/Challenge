@@ -30,25 +30,37 @@ namespace Challenge.QueueMessage
             var consumer = new EventingBasicConsumer(channel);
             consumer.Received += async (model, ea) =>
             {
-                var body = ea.Body.ToArray();
-                var message = Encoding.UTF8.GetString(body);
-                var stockQuote = GetstockQuote(message);
-                await _hubContext.Clients.Group(stockQuote?.Room).SendAsync("ReceiveMessage", "BOT", $"{stockQuote?.Symbol} quote is ${stockQuote?.Open} per share");
-                Console.WriteLine(" [x] Received {0}", message);
+                var stockQuote = GetstockQuote(ea);
+                if (stockQuote is null)
+                    return;
+
+                await _hubContext.Clients.Group(stockQuote.Room).SendAsync("ReceiveMessage", "BOT", GetPostMessage(stockQuote));
+                
+                Console.WriteLine(" [x] Received {0}", stockQuote.Symbol);
             };
             channel.BasicConsume(queue: "BotAnswer", autoAck: true, consumer: consumer);
         }
 
-        private StockQuoteResponse? GetstockQuote(string message)
+        private StockQuoteResponse? GetstockQuote(BasicDeliverEventArgs ea)
         {
             try
             {
+                var body = ea.Body.ToArray();
+                var message = Encoding.UTF8.GetString(body);
                 return JsonSerializer.Deserialize<StockQuoteResponse>(message);
             }
-            catch (Exception ex)
+            catch
             {
                 return null;
             }
+        }
+
+        private string GetPostMessage(StockQuoteResponse stockQuote)
+        {
+            if (!string.IsNullOrEmpty(stockQuote.ErrorMessage))
+                return $"{stockQuote.ErrorMessage}";
+
+            return $"{stockQuote?.Symbol} quote is ${stockQuote?.Open} per share";
         }
 
         public void Unregister()

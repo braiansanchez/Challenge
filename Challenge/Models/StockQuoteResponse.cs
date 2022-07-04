@@ -11,5 +11,6 @@
         public double Close { get; set; }
         public int Volume { get; set; }
         public string Room { get; set; }
+        public string ErrorMessage { get; set; }
     }
 }

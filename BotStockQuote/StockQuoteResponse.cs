@@ -14,5 +14,7 @@ namespace BotStockQuote
         public int Volume { get; set; }
         [Ignore]
         public string? Room { get; set; }
+        [Ignore]
+        public string? ErrorMessage { get; set; }
     }
 }
