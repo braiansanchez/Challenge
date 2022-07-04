@@ -2,8 +2,18 @@ using Challenge.ApplicationExtensions;
 using Challenge.Bot;
 using Challenge.ChatHub;
 using Challenge.QueueMessage;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Challenge.Areas.Identity.Data;
 
 var builder = WebApplication.CreateBuilder(args);
+var connectionString = builder.Configuration.GetConnectionString("AppDBContextConnection") ?? throw new InvalidOperationException("Connection string 'AppDBContextConnection' not found.");
+
+builder.Services.AddDbContext<AppDBContext>(options =>
+    options.UseSqlServer(connectionString));;
+
+builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
+    .AddEntityFrameworkStores<AppDBContext>();;
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -25,6 +35,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+app.UseAuthentication();;
 
 app.UseAuthorization();
 
@@ -35,5 +46,7 @@ app.MapControllerRoute(
 app.MapHub<ChatHub>("/chatHub");
 
 app.UseRabbitMQListener();
+
+app.MapRazorPages();
 
 app.Run();
