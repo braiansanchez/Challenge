@@ -22,11 +22,5 @@ namespace Challenge.ChatHub
         {
             await Groups.AddToGroupAsync(Context.ConnectionId, room);
         }
-
-        public async Task BotResponse(string room, string body)
-        {
-            //await Clients.Group(room).SendAsync("BotResponse", "BOT", $"APPL.US quote is ${93.42} per share");
-            await Clients.Group(room).SendAsync("BotResponse", "BOT", body);
-        }
     }
 }

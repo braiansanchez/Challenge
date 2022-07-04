@@ -6,7 +6,7 @@ namespace BotStockQuote
 {
     public static class Sender
     {
-        public static void QueueMessage(StockQuoteResponse? stockQuoteResponse, string room)
+        public static void QueueMessage(StockQuoteResponse? stockQuoteResponse)
         {
             try
             {
@@ -27,7 +27,7 @@ namespace BotStockQuote
                 if (stockQuoteResponse is null)
                     Console.WriteLine("Empty stockQuoteResponse object");
                 else
-                    Console.WriteLine($" [x] Sent code: {stockQuoteResponse?.Symbol}, price {stockQuoteResponse?.Open}");
+                    Console.WriteLine($" [x] Sent code: {stockQuoteResponse?.Symbol}, price {stockQuoteResponse?.Open}, for room {stockQuoteResponse?.Room}");
             }
             catch (Exception ex)
             {

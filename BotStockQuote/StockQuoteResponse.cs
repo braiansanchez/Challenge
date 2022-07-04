@@ -1,4 +1,6 @@
-﻿namespace BotStockQuote
+﻿using CsvHelper.Configuration.Attributes;
+
+namespace BotStockQuote
 {
     public class StockQuoteResponse
     {
@@ -10,5 +12,7 @@
         public double Low { get; set; }
         public double Close { get; set; }
         public int Volume { get; set; }
+        [Ignore]
+        public string? Room { get; set; }
     }
 }
