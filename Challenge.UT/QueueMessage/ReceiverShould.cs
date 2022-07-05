@@ -1,10 +1,9 @@
-﻿using Challenge.ChatHub;
-using Challenge.Models;
+﻿using Challenge.Models;
 using Challenge.QueueMessage;
 using Microsoft.AspNetCore.SignalR;
 using Moq;
 
-namespace Challenge.UT.QueueMessege
+namespace Challenge.UT.QueueMessage
 {
     [TestClass]
     public class ReceiverShould
