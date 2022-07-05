@@ -23,11 +23,6 @@ namespace BotStockQuote
                                             routingKey: "BotAnswer",
                                             basicProperties: null,
                                             body: GetBody(stockQuoteResponse));
-
-                if (stockQuoteResponse is null)
-                    Console.WriteLine("Empty stockQuoteResponse object");
-                else
-                    Console.WriteLine($" [x] Sent code: {stockQuoteResponse?.Symbol}, price {stockQuoteResponse?.Open}, for room {stockQuoteResponse?.Room}");
             }
             catch (Exception ex)
             {

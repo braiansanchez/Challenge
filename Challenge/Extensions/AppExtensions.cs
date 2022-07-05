@@ -15,14 +15,8 @@ namespace Challenge.ApplicationExtensions
             return app;
         }
 
-        private static void OnStarted()
-        {
-            _receiver.Register();
-        }
-
-        private static void OnStopping()
-        {
-            _receiver.Unregister();
-        }
+        private static void OnStarted() => _receiver.Register();
+        
+        private static void OnStopping() => _receiver.Unregister();
     }
 }

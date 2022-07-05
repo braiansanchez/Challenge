@@ -16,7 +16,7 @@
         </div>
 
         <div class="row">
-            <div class="col-8">
+            <div class="col-12">
                 <div id="messages"></div>
             </div>
         </div>
@@ -27,11 +27,15 @@
 
 <script>
     var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
+    var countMessage = 0;
+    var countMessageToDelete = 0;
+    const maxMessages = 50;
 
     connection.start().then(() => {
         connection.invoke("AddToGroup", "@Model")
     }).catch((e) => console.error(e));
 
+    //envia mensajes al server
     document.getElementById("sendButton").addEventListener("click", (event) => {
 
         let room = "@Model";
@@ -47,10 +51,21 @@
         event.preventDefault();
     });
 
+    //recibe mjes del server
     connection.on("ReceiveMessage", (user, message) => {
+        countMessage++;
+        var messageName = "messagePosition" + countMessage;
+        var numItems = $('.text-start').length;
+        
+        if (numItems >= maxMessages) {
+            countMessageToDelete++;
+            var value = $("div[name='messagePosition" + countMessageToDelete  + "']");
+            value.remove();
+        }
+
         var date = new Date();
         var time = "(" + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds() + ")";
-        var newMessage = "<div class='text-start'><b>" + user + ": </b>" + message + "  " + time + "</div>";
+        var newMessage = "<div name='" + messageName + "' class='text-start'><b>" + user + ": </b>" + message + "  " + time + "</div>";
         document.getElementById("messages").innerHTML = newMessage + document.getElementById("messages").innerHTML;
     });
 </script>

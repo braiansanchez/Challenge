@@ -8,26 +8,26 @@ using System.Text.Json;
 
 namespace Challenge.QueueMessage
 {
-    public class Receiver : Hub
+    public class Receiver
     {
-        public ConnectionFactory factory { get; set; }
-        public IConnection connection { get; set; }
-        public IModel channel { get; set; }
+        public ConnectionFactory Factory { get; set; }
+        public IConnection Connection { get; set; }
+        public IModel Channel { get; set; }
         private readonly IHubContext<ChatHub.ChatHub> _hubContext;
 
         public Receiver(IHubContext<ChatHub.ChatHub> hubContext)
         {
-            factory = new ConnectionFactory() { HostName = "localhost" };
-            connection = factory.CreateConnection();
-            channel = connection.CreateModel();
+            Factory = new ConnectionFactory() { HostName = "localhost" };
+            Connection = Factory.CreateConnection();
+            Channel = Connection.CreateModel();
             _hubContext = hubContext;
         }
 
         public void Register()
         {
-            channel.QueueDeclare(queue: "BotAnswer", durable: false, exclusive: false, autoDelete: false, arguments: null);
+            Channel.QueueDeclare(queue: "BotAnswer", durable: false, exclusive: false, autoDelete: false, arguments: null);
 
-            var consumer = new EventingBasicConsumer(channel);
+            var consumer = new EventingBasicConsumer(Channel);
             consumer.Received += async (model, ea) =>
             {
                 var stockQuote = GetstockQuote(ea);
@@ -35,10 +35,8 @@ namespace Challenge.QueueMessage
                     return;
 
                 await _hubContext.Clients.Group(stockQuote.Room).SendAsync("ReceiveMessage", "BOT", GetPostMessage(stockQuote));
-                
-                Console.WriteLine(" [x] Received {0}", stockQuote.Symbol);
             };
-            channel.BasicConsume(queue: "BotAnswer", autoAck: true, consumer: consumer);
+            Channel.BasicConsume(queue: "BotAnswer", autoAck: true, consumer: consumer);
         }
 
         private StockQuoteResponse? GetstockQuote(BasicDeliverEventArgs ea)
@@ -63,9 +61,6 @@ namespace Challenge.QueueMessage
             return $"{stockQuote?.Symbol} quote is ${stockQuote?.Open} per share";
         }
 
-        public void Unregister()
-        {
-            this.connection.Close();
-        }
+        public void Unregister() => Connection.Close();
     }
 }
