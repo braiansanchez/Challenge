@@ -53,12 +53,12 @@ namespace Challenge.QueueMessage
             }
         }
 
-        private string GetPostMessage(StockQuoteResponse stockQuote)
+        public string GetPostMessage(StockQuoteResponse stockQuote)
         {
             if (!string.IsNullOrEmpty(stockQuote.ErrorMessage))
                 return $"{stockQuote.ErrorMessage}";
 
-            return $"{stockQuote?.Symbol} quote is ${stockQuote?.Open} per share";
+            return $"{stockQuote.Symbol} quote is ${stockQuote.Open} per share";
         }
 
         public void Unregister() => Connection.Close();
