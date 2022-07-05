@@ -35,7 +35,6 @@
         connection.invoke("AddToGroup", "@Model")
     }).catch((e) => console.error(e));
 
-    //envia mensajes al server
     document.getElementById("sendButton").addEventListener("click", (event) => {
 
         let room = "@Model";
@@ -51,7 +50,6 @@
         event.preventDefault();
     });
 
-    //recibe mjes del server
     connection.on("ReceiveMessage", (user, message) => {
         countMessage++;
         var messageName = "messagePosition" + countMessage;

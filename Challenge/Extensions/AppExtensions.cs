@@ -1,4 +1,5 @@
-﻿using Challenge.QueueMessage;
+﻿using Challenge.Areas.Identity.Data;
+using Challenge.QueueMessage;
 
 namespace Challenge.ApplicationExtensions
 {
@@ -18,5 +19,14 @@ namespace Challenge.ApplicationExtensions
         private static void OnStarted() => _receiver.Register();
         
         private static void OnStopping() => _receiver.Unregister();
+
+        public static void SetDataBaseConfig(this IApplicationBuilder app)
+        {
+            using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
+            {
+                var context = serviceScope.ServiceProvider.GetRequiredService<AppDBContext>();
+                context.Database.EnsureCreated();
+            }
+        }
     }
 }
