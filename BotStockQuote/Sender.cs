@@ -6,7 +6,7 @@ namespace BotStockQuote
 {
     public static class Sender
     {
-        public static void QueueMessage(StockQuoteResponse? stockQuoteResponse)
+        public static void QueueMessage(StockQuoteResponse stockQuoteResponse)
         {
             try
             {
@@ -31,7 +31,7 @@ namespace BotStockQuote
             
         }
 
-        private static byte[] GetBody(StockQuoteResponse? stockQuoteResponse)
+        private static byte[] GetBody(StockQuoteResponse stockQuoteResponse)
         {
             if (stockQuoteResponse is null)
                 return new List<byte>().ToArray();

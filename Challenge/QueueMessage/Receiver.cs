@@ -39,7 +39,7 @@ namespace Challenge.QueueMessage
             Channel.BasicConsume(queue: "BotAnswer", autoAck: true, consumer: consumer);
         }
 
-        private StockQuoteResponse? GetstockQuote(BasicDeliverEventArgs ea)
+        private StockQuoteResponse GetstockQuote(BasicDeliverEventArgs ea)
         {
             try
             {
