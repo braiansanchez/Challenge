@@ -1,5 +1,7 @@
 To run this solution.
 
+-It was built in Net 6 so Visual Studio 2022 is needed.
+
 -Download and install Erlang (needed for rabbitmq server)
 https://www.erlang.org/downloads
 
